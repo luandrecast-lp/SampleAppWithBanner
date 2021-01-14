@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LPMessagingSDK
 
 class ConversationContainerViewController: UIViewController {
 
