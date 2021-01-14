@@ -8,8 +8,6 @@
 
 import UIKit
 import LPMessagingSDK
-import LPAMS
-import LPInfra
 
 class ConversationContainerViewController: UIViewController {
 

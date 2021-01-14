@@ -7,5 +7,6 @@ target 'SampleApp' do
 
   # Pods for SampleApp
   source 'https://github.com/LivePersonInc/iOSPodSpecs.git'
-  pod 'LPMessagingSDK', '3.6.1.0.2347'
+  pod 'LPMessagingSDK'
+  #pod 'LPMessagingSDK', '3.6.1.0.2347'
 end

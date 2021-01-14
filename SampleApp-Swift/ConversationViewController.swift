@@ -8,8 +8,6 @@
 
 import UIKit
 import LPMessagingSDK
-import LPAMS
-import LPInfra
 
 class ConversationViewController: UIViewController {
 
@@ -26,9 +24,9 @@ class ConversationViewController: UIViewController {
     //MARK: - Actions
     public func backButtonPressed() {
         if let accountNumber = self.account {
-            self.conversationQuery = LPMessagingSDK.instance.getConversationBrandQuery(accountNumber)
+            self.conversationQuery = LPMessaging.instance.getConversationBrandQuery(accountNumber)
             if let conversationQueryParam = self.conversationQuery {
-                LPMessagingSDK.instance.removeConversation(conversationQueryParam)
+                LPMessaging.instance.removeConversation(conversationQueryParam)
             }
         }
     }
@@ -49,20 +47,20 @@ class ConversationViewController: UIViewController {
              */
             let resolveAction = UIAlertAction(title: "Resolve", style: .default) { (alert: UIAlertAction) -> Void in
                 if self.conversationQuery != nil {
-                    LPMessagingSDK.instance.resolveConversation(conversationQueryParam)
+                    LPMessaging.instance.resolveConversation(conversationQueryParam)
                 }
             }
             
-            let urgentTitle = LPMessagingSDK.instance.isUrgent(conversationQueryParam) ? "Dismiss Urgent" : "Mark as Urgent"
+            let urgentTitle = LPMessaging.instance.isUrgent(conversationQueryParam) ? "Dismiss Urgent" : "Mark as Urgent"
             
             /**
              This is how to manage the urgency state of the conversation
              */
             let urgentAction = UIAlertAction(title: urgentTitle, style: .default) { (alert: UIAlertAction) -> Void in
-                if LPMessagingSDK.instance.isUrgent(conversationQueryParam) {
-                    LPMessagingSDK.instance.dismissUrgent(conversationQueryParam)
+                if LPMessaging.instance.isUrgent(conversationQueryParam) {
+                    LPMessaging.instance.dismissUrgent(conversationQueryParam)
                 } else {
-                    LPMessagingSDK.instance.markAsUrgent(conversationQueryParam)
+                    LPMessaging.instance.markAsUrgent(conversationQueryParam)
                 }
             }
             

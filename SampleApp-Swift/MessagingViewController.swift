@@ -8,8 +8,6 @@
 
 import UIKit
 import LPMessagingSDK
-import LPAMS
-import LPInfra
 
 class MessagingViewController: UIViewController {
 
@@ -57,11 +55,8 @@ class MessagingViewController: UIViewController {
         self.windowSwitch.isOn = windowSwitchValue
         self.authenticationSwitch.isOn = authenticationSwitchValue
         
-        LPMessagingSDK.instance.delegate = self
+        LPMessaging.instance.delegate = self
         self.setSDKConfigurations()
-        LPMessagingSDK.instance.subscribeLogEvents(LogLevel.trace) { (log) -> () in
-            print("LPMessagingSDK log: \(String(describing: log.text))")
-        }
     }
 
     //MARK: - IBActions
@@ -149,7 +144,7 @@ extension MessagingViewController {
      */
     private func initLPSDKwith(accountNumber: String){
         do {
-            try LPMessagingSDK.instance.initialize(accountNumber)
+            try LPMessaging.instance.initialize(accountNumber)
         } catch let error as NSError {
             print("initialize error: \(error)")
         }
@@ -171,10 +166,10 @@ extension MessagingViewController {
      */
     private func showConversationFor(accountNumber: String, authenticatedMode: Bool) {
         //ConversationParamProtocol
-        let conversationQuery = LPMessagingSDK.instance.getConversationBrandQuery(accountNumber)
+        let conversationQuery = LPMessaging.instance.getConversationBrandQuery(accountNumber)
         
         //LPConversationHistoryControlParam
-        let controlParam = LPConversationHistoryControlParam(historyConversationsStateToDisplay: .none,
+        let controlParam = LPConversationHistoryControlParam(historyConversationsStateToDisplay: .all,
                                                              historyConversationsMaxDays: -1,
                                                              historyMaxDaysType: .startConversationDate)
 
@@ -200,7 +195,7 @@ extension MessagingViewController {
                                                               isViewOnly: false,
                                                               conversationHistoryControlParam: controlParam)
         
-        LPMessagingSDK.instance.showConversation(conversationViewParams, authenticationParams: authenticationParams)
+        LPMessaging.instance.showConversation(conversationViewParams, authenticationParams: authenticationParams)
 
         self.setUserDetails()
     }
@@ -219,7 +214,7 @@ extension MessagingViewController {
                           profileImageURL: "http://www.mrbreakfast.com/ucp/342_6053_ucp.jpg",
                           phoneNumber: nil,
                           employeeID: "1111-1111")
-        LPMessagingSDK.instance.setUserProfile(user, brandID: self.accountTextField.text ?? "")
+        LPMessaging.instance.setUserProfile(user, brandID: self.accountTextField.text ?? "")
     }
     
     /**
@@ -229,10 +224,10 @@ extension MessagingViewController {
          https://developers.liveperson.com/mobile-app-messaging-sdk-for-ios-methods-logout.html
      */
     private func logoutLPSDK() {
-        LPMessagingSDK.instance.logout(completion: {
+        LPMessaging.instance.logout(completion: {
             print("successfully logout from MessagingSDK")
         }) { (error) in
-            print("failed to logout from MessagingSDK - error: \(error.localizedDescription)")
+            print("failed to logout from MessagingSDK - error: \(error.first?.localizedDescription)")
         }
     }
 }
